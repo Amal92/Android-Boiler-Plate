@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.paul.cruz.Utils.SharedPreferencesUtils;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -18,6 +20,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         findViewById(R.id.signin_button).setOnClickListener(this);
         findViewById(R.id.signup_button).setOnClickListener(this);
+        String session_token = (String) SharedPreferencesUtils.getParam(this,SharedPreferencesUtils.SESSION_TOKEN,"");
+        if (!session_token.equals("")){
+            Intent intent = new Intent(this, MainScreenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
     }
 
     @Override

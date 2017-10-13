@@ -18,5 +18,8 @@
     <string name="enter_a_valid_email">Please enter a valid email</string>
     <string name="enter_phone_no">Please enter a phone number</string>
     <string name="enter_password">Please enter a password</string>
+    <string name="client_secret_key">cZTdsndcJdC5RGLR2L4OOfsMHzsvS7jEkGnBQ5fh</string>
+    <string name="valid_password">Please enter a password with more than 6 letters</string>
+    <string name="please_enter_your_email_id_to_reset_your_password">Please enter your email id to reset your password.</string>
 
 </resources>

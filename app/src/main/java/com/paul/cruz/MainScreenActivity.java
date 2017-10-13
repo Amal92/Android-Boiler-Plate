@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.paul.cruz.Fragments.MapFragment;
+import com.paul.cruz.Utils.SharedPreferencesUtils;
 
 public class MainScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -125,6 +126,10 @@ public class MainScreenActivity extends AppCompatActivity
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // erase all pref and go to start screen
+                        erasePref();
+                        Intent intent = new Intent(MainScreenActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                     }
                 });
 
@@ -138,5 +143,9 @@ public class MainScreenActivity extends AppCompatActivity
 
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void erasePref() {
+        SharedPreferencesUtils.setParam(this, SharedPreferencesUtils.SESSION_TOKEN, "");
     }
 }
