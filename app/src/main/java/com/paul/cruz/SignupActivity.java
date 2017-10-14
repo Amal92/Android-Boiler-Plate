@@ -72,10 +72,10 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         json.addProperty("device_type", "android");
         json.addProperty("device_token", "token");
         json.addProperty("device_id", "id");
-        if (male_rd.isChecked()){
-            json.addProperty("gender","MALE");
-        }else {
-            json.addProperty("gender","FEMALE");
+        if (male_rd.isChecked()) {
+            json.addProperty("gender", "M");
+        } else {
+            json.addProperty("gender", "F");
         }
 
         Ion.with(this)
@@ -140,7 +140,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         if (password_et.getText().toString().isEmpty()) {
             password_et.setError(getString(R.string.enter_password));
             flag = true;
-        } else if (password_et.getText().length() <= 6) {
+        } else if (password_et.getText().length() < 6) {
             password_et.setError(getString(R.string.valid_password));
             flag = true;
         }

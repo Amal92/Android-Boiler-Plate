@@ -14,7 +14,7 @@ import com.koushikdutta.ion.Response;
 import com.paul.cruz.Utils.Endpoints;
 import com.paul.cruz.Utils.HelperClass;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener {
     TextInputEditText email_et;
     Button reset_button;
 
@@ -27,6 +27,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        findViewById(R.id.back_button).setOnClickListener(this);
         email_et = (TextInputEditText) findViewById(R.id.email_et);
         reset_button = (Button) findViewById(R.id.reset_button);
         reset_button.setOnClickListener(new View.OnClickListener() {
@@ -71,5 +72,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back_button:
+                onBackPressed();
+                break;
+        }
     }
 }

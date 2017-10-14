@@ -59,7 +59,8 @@
                 android:inputType="textEmailAddress"
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey"
-                app:backgroundTint="@color/black" />
+                app:backgroundTint="@color/black"
+                android:enabled="false"/>
 
         </android.support.design.widget.TextInputLayout>
 

@@ -118,7 +118,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         if (password_et.getText().toString().isEmpty()) {
             password_et.setError(getString(R.string.enter_password));
             flag = true;
-        } else if (password_et.getText().length() <= 6) {
+        } else if (password_et.getText().length() < 6) {
             password_et.setError(getString(R.string.valid_password));
             flag = true;
         }

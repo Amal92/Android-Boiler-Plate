@@ -18,12 +18,26 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.Response;
 import com.paul.cruz.Fragments.MapFragment;
+import com.paul.cruz.Utils.Const;
+import com.paul.cruz.Utils.Endpoints;
 import com.paul.cruz.Utils.SharedPreferencesUtils;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView name;
+    TextView email;
+    ImageView profile_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +56,9 @@ public class MainScreenActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerLayout = navigationView.getHeaderView(0);
-        TextView name = (TextView) headerLayout.findViewById(R.id.name);
-        TextView email = (TextView) headerLayout.findViewById(R.id.email);
-        ImageView profile_image = (ImageView) headerLayout.findViewById(R.id.profile_image);
+        name = (TextView) headerLayout.findViewById(R.id.name);
+        email = (TextView) headerLayout.findViewById(R.id.email);
+        profile_image = (ImageView) headerLayout.findViewById(R.id.profile_image);
         LinearLayout header_ll = (LinearLayout) headerLayout.findViewById(R.id.header_ll);
         header_ll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +68,12 @@ public class MainScreenActivity extends AppCompatActivity
         });
 
         gotoMapFragment();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getProfile();
     }
 
     private void gotoMapFragment() {
@@ -116,6 +136,46 @@ public class MainScreenActivity extends AppCompatActivity
         return true;
     }
 
+    private void getProfile() {
+
+        Ion.with(this)
+                .load(Endpoints.PROFILE_URL)
+                .addHeader("X-Requested-With", "XMLHttpRequest")
+                .addHeader("Authorization", "Bearer " + SharedPreferencesUtils.getParam(MainScreenActivity.this, SharedPreferencesUtils.SESSION_TOKEN, ""))
+                .asString()
+                .withResponse()
+                .setCallback(new FutureCallback<Response<String>>() {
+                    @Override
+                    public void onCompleted(Exception e, Response<String> result) {
+                        if (result == null) {
+                            return;
+                        }
+                        if (result.getHeaders().code() == 200) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(result.getResult());
+                                name.setText(jsonObject.optString("name"));
+                                email.setText(jsonObject.optString("email"));
+                                Picasso.with(MainScreenActivity.this)
+                                        .load(jsonObject.optString("avatar"))
+                                        .placeholder(R.drawable.user)
+                                        .error(R.drawable.user)
+                                        .into(profile_image);
+
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                JSONObject jsonObject = new JSONObject(result.getResult().toString());
+                                Toast.makeText(MainScreenActivity.this, jsonObject.optString(Const.message), Toast.LENGTH_LONG).show();
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    }
+                });
+    }
+
     private void logout() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Logout");
@@ -143,6 +203,8 @@ public class MainScreenActivity extends AppCompatActivity
 
         AlertDialog alert = builder.create();
         alert.show();
+        alert.getButton(alert.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.pink));
+        alert.getButton(alert.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.pink));
     }
 
     private void erasePref() {
