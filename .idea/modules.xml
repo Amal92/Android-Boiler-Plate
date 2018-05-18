@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Cruz.iml" filepath="$PROJECT_DIR$/Cruz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LRDP boiler plate.iml" filepath="$PROJECT_DIR$/LRDP boiler plate.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
