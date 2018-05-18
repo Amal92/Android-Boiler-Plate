@@ -5,7 +5,7 @@ android {
     buildToolsVersion "27.0.2"
 
     defaultConfig {
-        applicationId "com.paul.cruz"
+        applicationId "com.amal.lrpd"
         minSdkVersion 17
         targetSdkVersion 27
         versionCode 1

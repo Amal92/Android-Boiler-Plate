@@ -1,4 +1,4 @@
-package com.paul.cruz;
+package com.amal.lrpd;
 
 import org.junit.Test;
 

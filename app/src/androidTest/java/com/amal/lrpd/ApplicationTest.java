@@ -1,4 +1,4 @@
-package com.paul.cruz;
+package com.amal.lrpd;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

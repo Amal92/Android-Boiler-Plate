@@ -1,11 +1,11 @@
-package com.paul.cruz;
+package com.amal.lrpd;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.paul.cruz.Utils.SharedPreferencesUtils;
+import com.amal.lrpd.Utils.SharedPreferencesUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

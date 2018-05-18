@@ -1,4 +1,4 @@
-package com.paul.cruz;
+package com.amal.lrpd;
 
 
 import android.content.DialogInterface;
@@ -23,10 +23,10 @@ import android.widget.Toast;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
-import com.paul.cruz.Fragments.MapFragment;
-import com.paul.cruz.Utils.Const;
-import com.paul.cruz.Utils.Endpoints;
-import com.paul.cruz.Utils.SharedPreferencesUtils;
+import com.amal.lrpd.Fragments.MapFragment;
+import com.amal.lrpd.Utils.Const;
+import com.amal.lrpd.Utils.Endpoints;
+import com.amal.lrpd.Utils.SharedPreferencesUtils;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;

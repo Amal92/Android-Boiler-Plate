@@ -1,4 +1,4 @@
-package com.paul.cruz.Utils;
+package com.amal.lrpd.Utils;
 
 /**
  * Created by amal on 13/10/17.

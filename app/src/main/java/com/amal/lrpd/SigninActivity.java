@@ -1,11 +1,10 @@
-package com.paul.cruz;
+package com.amal.lrpd;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,36 +12,32 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
-import com.paul.cruz.Utils.Endpoints;
-import com.paul.cruz.Utils.HelperClass;
+import com.amal.lrpd.Utils.Const;
+import com.amal.lrpd.Utils.Endpoints;
+import com.amal.lrpd.Utils.HelperClass;
+import com.amal.lrpd.Utils.SharedPreferencesUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SignupActivity extends AppCompatActivity implements View.OnClickListener {
+public class SigninActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextInputEditText name_et, email_et, phone_et, password_et;
-    private AppCompatRadioButton male_rd, female_rd;
+    TextInputEditText email_et, password_et;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_signin);
         try {
             getSupportActionBar().hide();
         } catch (Exception e) {
             e.printStackTrace();
         }
         findViewById(R.id.back_button).setOnClickListener(this);
-        findViewById(R.id.signup_button).setOnClickListener(this);
-        name_et = (TextInputEditText) findViewById(R.id.name_et);
+        findViewById(R.id.signin_button).setOnClickListener(this);
         email_et = (TextInputEditText) findViewById(R.id.email_et);
-        phone_et = (TextInputEditText) findViewById(R.id.phone_et);
         password_et = (TextInputEditText) findViewById(R.id.password_et);
-        male_rd = (AppCompatRadioButton) findViewById(R.id.male_rd);
-        female_rd = (AppCompatRadioButton) findViewById(R.id.female_rd);
-
+        findViewById(R.id.forgot_password).setOnClickListener(this);
     }
 
     @Override
@@ -51,35 +46,27 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.back_button:
                 onBackPressed();
                 break;
-            case R.id.signup_button:
-                if (checkForEmpty()) {
-                    register();
-                }
+            case R.id.signin_button:
+                if (checkForEmpty())
+                    login();
+                break;
+            case R.id.forgot_password:
+                startActivity(new Intent(this, ForgotPasswordActivity.class));
                 break;
         }
     }
 
-    private void register() {
+    private void login() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Registering...");
+        progressDialog.setMessage("Signing in...");
         progressDialog.show();
         final JsonObject json = new JsonObject();
-        json.addProperty("email", email_et.getText().toString());
+        json.addProperty("username", email_et.getText().toString());
         json.addProperty("password", password_et.getText().toString());
-        json.addProperty("name", name_et.getText().toString());
-        json.addProperty("mobile", phone_et.getText().toString());
-        json.addProperty("device_type", "android");
-        json.addProperty("device_token", "token");
-        json.addProperty("device_id", "id");
-        if (male_rd.isChecked()) {
-            json.addProperty("gender", "M");
-        } else {
-            json.addProperty("gender", "F");
-        }
 
         Ion.with(this)
-                .load(Endpoints.REGISTER_URL)
+                .load(Endpoints.LOGIN_URL)
                 .setJsonObjectBody(json)
                 .asString()
                 .withResponse()
@@ -90,26 +77,19 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         if (result == null)
                             return;
                         if (result.getHeaders().code() == 200) {
-
-                            Toast.makeText(SignupActivity.this, "Successfully registered. Please sign in to continue.", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(SignupActivity.this, SigninActivity.class);
-                            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
-
+                            try {
+                                JSONObject jsonObject = new JSONObject(result.getResult().toString());
+                                SharedPreferencesUtils.setParam(SigninActivity.this, SharedPreferencesUtils.SESSION_TOKEN, jsonObject.optString(Const.access_token));
+                                Intent intent = new Intent(SigninActivity.this, MainScreenActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
                         } else {
                             try {
                                 JSONObject jsonObject = new JSONObject(result.getResult().toString());
-                                JSONObject errorObject = jsonObject.getJSONObject("errors");
-                                JSONArray emailArray = errorObject.optJSONArray("email");
-                                StringBuilder stringBuilder = new StringBuilder("");
-                                if (emailArray != null) {
-                                    for (int i = 0; i < emailArray.length(); i++) {
-                                        stringBuilder.append(emailArray.get(i) + " ");
-                                    }
-                                    Toast.makeText(SignupActivity.this, stringBuilder.toString(), Toast.LENGTH_LONG).show();
-                                }
-
+                                Toast.makeText(SigninActivity.this, jsonObject.optString(Const.message), Toast.LENGTH_LONG).show();
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
                             }
@@ -119,11 +99,8 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private boolean checkForEmpty() {
+
         boolean flag = false;
-        if (name_et.getText().toString().isEmpty()) {
-            name_et.setError(getString(R.string.enter_a_name));
-            flag = true;
-        }
         if (email_et.getText().toString().isEmpty()) {
             email_et.setError(getString(R.string.enter_a_email));
             flag = true;
@@ -132,10 +109,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 email_et.setError(getString(R.string.enter_a_valid_email));
                 flag = true;
             }
-        }
-        if (phone_et.getText().toString().isEmpty()) {
-            phone_et.setError(getString(R.string.enter_phone_no));
-            flag = true;
         }
         if (password_et.getText().toString().isEmpty()) {
             password_et.setError(getString(R.string.enter_password));

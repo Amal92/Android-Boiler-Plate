@@ -1,4 +1,4 @@
-package com.paul.cruz.Utils;
+package com.amal.lrpd.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

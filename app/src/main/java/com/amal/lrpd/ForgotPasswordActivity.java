@@ -1,4 +1,4 @@
-package com.paul.cruz;
+package com.amal.lrpd;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.Response;
-import com.paul.cruz.Utils.Endpoints;
-import com.paul.cruz.Utils.HelperClass;
+import com.amal.lrpd.Utils.Endpoints;
+import com.amal.lrpd.Utils.HelperClass;
 
 public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener {
     TextInputEditText email_et;

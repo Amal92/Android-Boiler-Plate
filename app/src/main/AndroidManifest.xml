@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.paul.cruz">
+    package="com.amal.lrpd">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -19,7 +19,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.amal.lrpd.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,20 +28,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SigninActivity"
+            android:name="com.amal.lrpd.SigninActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SignupActivity"
+            android:name="com.amal.lrpd.SignupActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainScreenActivity"
+            android:name="com.amal.lrpd.MainScreenActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ProfileActivity"
+            android:name="com.amal.lrpd.ProfileActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ForgotPasswordActivity"></activity>
+        <activity android:name="com.amal.lrpd.ForgotPasswordActivity"></activity>
     </application>
 
 </manifest>

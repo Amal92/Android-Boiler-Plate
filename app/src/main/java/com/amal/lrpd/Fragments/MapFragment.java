@@ -1,4 +1,4 @@
-package com.paul.cruz.Fragments;
+package com.amal.lrpd.Fragments;
 
 
 import android.Manifest;
@@ -21,7 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.paul.cruz.R;
+import com.amal.lrpd.R;
 
 /**
  * A simple {@link Fragment} subclass.
